@@ -1,0 +1,95 @@
+# demo.vn — ViNov demo story
+# Structural coverage: 7 scenes, a 3-choice scene, a cycle back to intro,
+# both terminal kinds, 3 images, escaped quotes.
+
+start_novel intro
+
+
+# ─── opening ──────────────────────────────────────────────
+
+scene intro:
+    image "assets/room.png"
+
+    text "You wake on a concrete floor. The cold has gone all the way into your teeth."
+    text "Somewhere above you, a fluorescent tube ticks like an insect."
+    text "A woman is crouched beside you, one hand flat on your shoulder."
+    text "Alice: \"Oh good. You're awake. We have about four minutes.\""
+
+    choice "Take her hand"        -> follow_alice
+    choice "Pull away from her"   -> escape
+    choice "Say nothing"          -> silence
+
+    end_message "You decide"
+
+
+# ─── the cooperative branch ───────────────────────────────
+
+scene follow_alice:
+    image "assets/corridor.png"
+
+    text "She pulls you upright. Your legs remember how to work about a second late."
+    text "The corridor outside is long and painted the colour of old milk."
+    text "Alice: \"Stay close. Don't touch anything that hums.\""
+
+    choice "Ask where you are"     -> question
+    choice "Follow without asking" -> good_end
+
+    end_message "You follow"
+
+
+scene question:
+    text "You ask. She doesn't slow down."
+    text "Alice: \"Later. When there's sky over us.\""
+    text "Something in the wall behind you begins, very quietly, to hum."
+
+    choice "Let it go and keep moving" -> good_end
+    choice "Stop and look back"        -> bad_end
+
+    end_message "She doesn't answer"
+
+
+# ─── the uncooperative branch ─────────────────────────────
+
+scene escape:
+    text "You wrench your shoulder out from under her hand and run."
+    text "The corridor forks. Then forks again."
+    text "By the fourth turn you have stopped counting, which feels like a mistake."
+
+    choice "Keep running"      -> bad_end
+    choice "Retrace your steps" -> intro
+
+    end_message "You run"
+
+
+scene silence:
+    text "You say nothing at all."
+    text "Alice watches you for long enough that the ticking overhead becomes the loudest thing in the room."
+    text "Alice: \"Okay. Okay, that's fine. But I'm going now.\""
+
+    choice "Stand up and go with her" -> follow_alice
+    choice "Let her leave"            -> escape
+
+    end_message "Silence"
+
+
+# ─── endings ──────────────────────────────────────────────
+
+scene good_end:
+    image "assets/door.png"
+
+    text "The door gives on the third shove."
+    text "Cold air. Wet gravel. An enormous, ordinary sky."
+    text "Alice: \"Told you.\""
+    text ""
+    text "You made it out."
+
+    end restart
+
+
+scene bad_end:
+    text "The corridors go on the way corridors do in dreams — patiently, without malice."
+    text "Eventually you stop running, because eventually everyone does."
+    text ""
+    text "You did not make it out."
+
+    end quit
